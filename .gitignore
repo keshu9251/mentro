@@ -1,0 +1,3 @@
+/vendor/
+/config/firebase-key.json
+.env
