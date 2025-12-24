@@ -15,10 +15,9 @@ if (!$serviceAccount) {
     throw new RuntimeException('Invalid Firebase service account JSON');
 }
 
-$factory = (new Factory)
-    ->withServiceAccount($serviceAccount);
+$factory = (new Factory)->withServiceAccount($serviceAccount);
 
-$firebase = $factory->create();
+// ❌ DO NOT use ->create()
 
-$database = $firebase->getDatabase();
-$auth = $firebase->getAuth();
+$database = $factory->createDatabase();
+$auth = $factory->createAuth();
