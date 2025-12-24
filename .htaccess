@@ -1,5 +1,12 @@
-
 RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
+
+# Allow direct access to API files
+RewriteRule ^api/ - [L]
+
+# Allow existing files & folders
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Otherwise route to index.php
 RewriteRule ^ index.php [L]
