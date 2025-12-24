@@ -13,9 +13,8 @@ $serviceAccount = json_decode($firebaseJson, true);
 
 $factory = (new Factory)->withServiceAccount($serviceAccount);
 
-// Firestore
-$firestore = $factory->createFirestore();
-$db = $firestore->database();
+// ✅ Realtime Database (NO extra dependency)
+$database = $factory->createDatabase();
 
 // Auth (for later)
 $auth = $factory->createAuth();

@@ -11,12 +11,12 @@ if (!$mentorId) {
     exit;
 }
 
-$db->collection('mentors')
-   ->document($mentorId)
-   ->update([
-       ['path' => 'verification_status', 'value' => 'verified'],
-       ['path' => 'verified_badge', 'value' => true]
-   ]);
+$database
+    ->getReference("mentors/$mentorId")
+    ->update([
+        'verification_status' => 'verified',
+        'verified_badge' => true
+    ]);
 
 echo json_encode([
     'success' => true,
