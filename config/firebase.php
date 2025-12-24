@@ -6,18 +6,16 @@ use Kreait\Firebase\Factory;
 $firebaseJson = getenv('FIREBASE_SERVICE_ACCOUNT');
 
 if (!$firebaseJson) {
-    throw new RuntimeException('FIREBASE_SERVICE_ACCOUNT env variable not set');
+    throw new RuntimeException('FIREBASE_SERVICE_ACCOUNT not set');
 }
 
 $serviceAccount = json_decode($firebaseJson, true);
 
-if (!$serviceAccount) {
-    throw new RuntimeException('Invalid Firebase service account JSON');
-}
-
 $factory = (new Factory)->withServiceAccount($serviceAccount);
 
-// ❌ DO NOT use ->create()
+// Firestore
+$firestore = $factory->createFirestore();
+$db = $firestore->database();
 
-$database = $factory->createDatabase();
+// Auth (for later)
 $auth = $factory->createAuth();

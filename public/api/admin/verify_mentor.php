@@ -1,7 +1,24 @@
-
 <?php
-require __DIR__ . '/../../../config/firebase.php';
-$docs=$db->collection('users')->where('role','=','mentor')->documents();
-foreach($docs as $doc){
- echo $doc->id().' : '.$doc['name'].'<br>';
+require '../../../config/firebase.php';
+
+$mentorId = $_POST['mentor_id'] ?? null;
+
+if (!$mentorId) {
+    echo json_encode([
+        'success' => false,
+        'message' => 'Mentor ID required'
+    ]);
+    exit;
 }
+
+$db->collection('mentors')
+   ->document($mentorId)
+   ->update([
+       ['path' => 'verification_status', 'value' => 'verified'],
+       ['path' => 'verified_badge', 'value' => true]
+   ]);
+
+echo json_encode([
+    'success' => true,
+    'message' => 'Mentor verified successfully'
+]);
