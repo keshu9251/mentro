@@ -1,18 +1,24 @@
 <?php
-
 require __DIR__ . '/../vendor/autoload.php';
 
 use Kreait\Firebase\Factory;
 
-// Get credentials path from environment variable (Render Free compatible)
-$credentialsPath = getenv('GOOGLE_APPLICATION_CREDENTIALS');
+$firebaseJson = getenv('FIREBASE_SERVICE_ACCOUNT');
 
-if (!$credentialsPath || !file_exists($credentialsPath)) {
-    throw new RuntimeException('Firebase credentials file not found');
+if (!$firebaseJson) {
+    throw new RuntimeException('FIREBASE_SERVICE_ACCOUNT env variable not set');
 }
 
-// Create Firebase instance
-$factory = (new Factory)->withServiceAccount($credentialsPath);
+$serviceAccount = json_decode($firebaseJson, true);
 
-$firebase = $factory->createFirestore();
-$db = $firebase->database();
+if (!$serviceAccount) {
+    throw new RuntimeException('Invalid Firebase service account JSON');
+}
+
+$factory = (new Factory)
+    ->withServiceAccount($serviceAccount);
+
+$firebase = $factory->create();
+
+$database = $firebase->getDatabase();
+$auth = $firebase->getAuth();
