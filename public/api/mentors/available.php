@@ -11,7 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 // ========================================
 
-require __DIR__ . "/../../config/firebase.php";
+require __DIR__ . "/../../../config/firebase.php";
+
 
 $snapshot = $db->getReference("mentors")->getSnapshot();
 $mentors = $snapshot->getValue() ?? [];
