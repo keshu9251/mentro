@@ -3,18 +3,17 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use Kreait\Firebase\Factory;
 
-$firebaseJson = getenv('FIREBASE_SERVICE_ACCOUNT');
+// Path to service account JSON (Render env var)
+$credentialsPath = getenv('GOOGLE_APPLICATION_CREDENTIALS');
 
-if (!$firebaseJson) {
-    throw new RuntimeException('FIREBASE_SERVICE_ACCOUNT not set');
+if (!$credentialsPath || !file_exists($credentialsPath)) {
+    throw new RuntimeException('Firebase credentials file not found');
 }
 
-$serviceAccount = json_decode($firebaseJson, true);
+// 🔥 IMPORTANT: SET DATABASE URI EXPLICITLY
+$factory = (new Factory)
+    ->withServiceAccount($credentialsPath)
+    ->withDatabaseUri('https://mentro-a8f2d-default-rtdb.firebaseio.com');
 
-$factory = (new Factory)->withServiceAccount($serviceAccount);
-
-// ✅ Realtime Database (NO extra dependency)
+// ✅ USE REALTIME DATABASE
 $db = $factory->createDatabase();
-
-// Auth (for later)
-$auth = $factory->createAuth();
