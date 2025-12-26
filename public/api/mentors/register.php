@@ -32,8 +32,19 @@ $mentorData = [
     "domain" => $data["domain"] ?? "",
     "role" => $data["role"] ?? "",
     "company" => $data["company"] ?? "",
-    "availability" => $data["availability"] ?? [],
-    "pricing" => $data["pricing"] ?? [],
+
+    "availability" => [
+        "days" => $data["availability"]["days"] ?? [],
+        "time_from" => $data["availability"]["time_from"] ?? "",
+        "time_to" => $data["availability"]["time_to"] ?? ""
+    ],
+
+    "pricing" => [
+        "min15" => $data["pricing"]["min15"] ?? 0,
+        "min30" => $data["pricing"]["min30"] ?? 0,
+        "min60" => $data["pricing"]["min60"] ?? 0
+    ],
+
     "verified" => false,
     "created_at" => time()
 ];
